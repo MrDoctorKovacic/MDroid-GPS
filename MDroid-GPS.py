@@ -11,11 +11,9 @@ import os
 gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE) 
 
 def parseConfig():
-	global LOGGING_ADDRESS, DEVICE
-
 	# parse program arguments
 	parser = argparse.ArgumentParser(description='Read from GPSd, forward to REST API.')
-	parser.add_argument('--settings', action='store', required=True, help='Config file to load API settings.')
+	parser.add_argument('--settings-file', action='store', required=True, help='Config file to load API settings.')
 	args  = parser.parse_args()
 
 	# Overwrite defaults if settings file is provided

@@ -1,0 +1,14 @@
+[Unit]
+Description=MDroid GPS
+After=mdroid-core.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=2
+User=root
+ExecStart=/usr/bin/python /home/pi/MDroid/MDroid-GPS/MDroid-GPS.py --settings-file /home/pi/MDroid/config.json &> /home/pi/MDroid/logs/gps/`date +\%Y-\%m-\%d_\%H:\%M:\%S`-gps.log
+
+[Install]
+WantedBy=multi-user.target
