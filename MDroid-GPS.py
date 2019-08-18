@@ -17,23 +17,23 @@ def parseConfig():
 	args  = parser.parse_args()
 
 	# Overwrite defaults if settings file is provided
-	if args.settings:
-		if os.path.isfile(args.settings): 
+	if args and args.settings_file:
+		if os.path.isfile(args.settings_file): 
 			try:
-				with open(args.settings) as json_file:
+				with open(args.settings_file) as json_file:
 					data = json.load(json_file)
-					if "CONFIG" in data:
+					if "MDROID" in data:
 						# Setup MDroid API
-						if "MDROID_HOST" in data["CONFIG"]:
-							return data["CONFIG"]["MDROID_HOST"]
+						if "MDROID_HOST" in data["MDROID"]:
+							return data["MDROID"]["MDROID_HOST"]
 						else:
 							logging.debug("MDROID_HOST not found in config file, not using MDroid API.")
 
 			except IOError as e:
-				logging.error("Failed to open settings file:"+args.settings)
+				logging.error("Failed to open settings file:"+args.settings_file)
 				logging.error(e)
 		else:
-			logging.error("Could not load settings from file"+str(args.settings))
+			logging.error("Could not load settings from file"+str(args.settings_file))
 	return False
    
 try:
@@ -41,6 +41,7 @@ try:
 	LOGGING_ADDRESS = parseConfig()
 	
 	if LOGGING_ADDRESS:
+                print("Using "+LOGGING_ADDRESS)
 		while True:
 			report = gpsd.next() #
 			if report['class'] == 'TPV':
@@ -58,7 +59,7 @@ try:
 				print(postdata)
 
 				try:
-					r = requests.post(LOGGING_ADDRESS+"/gps", json = postdata, headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
+					r = requests.post(LOGGING_ADDRESS+"/session/gps", json = postdata, headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
 				except Exception as e:
 					print "Error in request: "+str(e)
  
