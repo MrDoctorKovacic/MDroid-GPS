@@ -17,11 +17,7 @@ def parseConfig():
 	args  = parser.parse_args()
 
 	# Overwrite defaults if settings file is provided
-<<<<<<< HEAD
 	if args and args.settings_file:
-=======
-	if args.settings_file:
->>>>>>> 693cfd4336b002f9ffa889caff6fbc8b330d2a61
 		if os.path.isfile(args.settings_file): 
 			try:
 				with open(args.settings_file) as json_file:
