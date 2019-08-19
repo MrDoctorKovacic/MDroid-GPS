@@ -1,12 +1,13 @@
 #! /usr/bin/python
  
-from gps import *
+from gps import gps, WATCH_ENABLE, WATCH_NEWSTYLE
 import time
 import requests
 import sys
 import logging
 import argparse
 import os
+import json
 
 gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE) 
 
@@ -41,7 +42,7 @@ try:
 	LOGGING_ADDRESS = parseConfig()
 	
 	if LOGGING_ADDRESS:
-                print("Using "+LOGGING_ADDRESS)
+		print("Using "+LOGGING_ADDRESS)
 		while True:
 			report = gpsd.next() #
 			if report['class'] == 'TPV':
@@ -61,7 +62,7 @@ try:
 				try:
 					r = requests.post(LOGGING_ADDRESS+"/session/gps", json = postdata, headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
 				except Exception as e:
-					print "Error in request: "+str(e)
+					print("Error in request: "+str(e))
  
 except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
-	print "Done.\nExiting."
+	print("Done.\nExiting.")
