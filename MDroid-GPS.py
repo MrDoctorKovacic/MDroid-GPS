@@ -1,5 +1,6 @@
 #! /usr/bin/python
- 
+print("Starting GPS logging...")
+
 from gps import gps, WATCH_ENABLE, WATCH_NEWSTYLE
 import time
 import requests
@@ -49,15 +50,15 @@ try:
 				postdata = {
 					"latitude": str(getattr(report,'lat','')),
 					"longitude": str(getattr(report,'lon','')),
-					"altitude": getattr(report,'alt',None),
-					"speed": getattr(report,'speed',None),
-					"climb": getattr(report,'climb',None),
-					"epv": getattr(report,'epv',None),
-					"ept": getattr(report,'ept',None),
+					"altitude": str(getattr(report,'alt',None)),
+					"speed": str(getattr(report,'speed',None)),
+					"climb": str(getattr(report,'climb',None)),
+					"epv": str(getattr(report,'epv',None)),
+					"ept": str(getattr(report,'ept',None)),
 					"time": str(getattr(report,'time',''))
 				}
 
-				print(postdata)
+				#print(postdata)
 
 				try:
 					r = requests.post(LOGGING_ADDRESS+"/session/gps", json = postdata, headers={'Content-type': 'application/json', 'Accept': 'text/plain'})
