@@ -39,7 +39,7 @@ try:
 					postGPSFix("climb", (getattr(report,'climb',None)))
 					postGPSFix("epv", (getattr(report,'epv',None)))
 					postGPSFix("ept", (getattr(report,'ept',None)))
-					postGPSFix("time", str(getattr(report,'time','')))
+					#postGPSFix("time", str(getattr(report,'time','')))
 
 			except Exception as e:
 				print("GPSD error: "+str(e))
